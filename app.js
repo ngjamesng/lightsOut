@@ -1,5 +1,9 @@
 const WIDTH = 7,
-	HEIGHT = 5;
+	HEIGHT = 5,
+	DIFFICULTY = 2;
+
+const winMessage = document.querySelector("#message"),
+	resetButton = document.querySelector("#reset");
 
 function toggleCell(y, x) {
 	// find the cell at y,x and change it off<->on
@@ -9,6 +13,10 @@ function toggleCell(y, x) {
 		let cell = document.querySelector(id);
 		cell.classList.toggle("on");
 	}
+}
+
+function randomNumbers(max) {
+	return Math.floor(Math.random() * max) + 1;
 }
 
 function handleCellClick(event) {
@@ -33,7 +41,9 @@ function handleWin() {
 	// called when we win
 	if (checkForWin()) {
 		setTimeout(() => {
-			alert("you win!");
+			winMessage.innerText = "You Win!";
+			resetButton.innerText = "Play Again.";
+			resetButton.addEventListener("click", reset);
 		}, 100);
 	}
 }
@@ -46,6 +56,23 @@ function checkForWin() {
 	return true;
 }
 
+function setUpAllTiles() {
+	for (let cell of document.querySelectorAll(".cell")) {
+		cell.classList.remove("on");
+	}
+	for (let i = 0; i < DIFFICULTY; i++) {
+		let x = randomNumbers(WIDTH) - 1;
+		let y = randomNumbers(HEIGHT) - 1;
+		toggleCellAndNeighbors(y, x);
+	}
+}
+
+function reset() {
+	winMessage.innerText = "click the squares until all the squares are darked out!";
+	resetButton.innerText = "Reset";
+	setUpAllTiles();
+}
+
 function addClickListeners() {
 	for (let cell of document.querySelectorAll(".cell")) {
 		// console.log("addClickListeners", cell);
@@ -53,4 +80,5 @@ function addClickListeners() {
 	}
 }
 
+setUpAllTiles();
 addClickListeners();
