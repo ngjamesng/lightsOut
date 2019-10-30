@@ -1,0 +1,13 @@
+.cell {
+	background-color: navy;
+	width: 50px;
+	height: 50px;
+}
+
+#board {
+	border: solid 5px black;
+}
+
+.cell.on {
+	background-color: tomato;
+}
